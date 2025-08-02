@@ -1,0 +1,663 @@
+body {
+            
+
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, rgba(101, 78, 163, 0.5), rgba(234, 175, 200, 0.5)), 
+                url("/static/images/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    color: white;
+    display: flex;
+
+    
+        }
+
+/* Sidebar Navigation */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar h2 {
+    text-align: center;
+    color: #FFD700; /* Golden Yellow */
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 10px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    margin-left: 270px;
+    padding: 40px 20px 20px; /* Increased top padding to 40px */
+    width: calc(100% - 270px);
+}
+
+.dashboard-header {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    display: none; /* Hides the Welcome Message */
+}
+
+/* Diagnosis Section */
+.diagnosis-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px; /* Increased from 30px */
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 48%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+    color: #FFD700;
+}
+
+.card p {
+    color: white;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background: #FFD700;
+    color: black;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: #FFA500;
+}
+
+/* Additional Info Section */
+.additional-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px; /* Increased from 30px */
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    width: 48%;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.info-card h3 {
+    color: #FFD700;
+}
+
+.info-card p {
+    color: white;
+}
+
+/* Footer */
+.dashboard-footer {
+    position: fixed;
+    bottom: 0;
+    left: 270px; /* Adjusted to account for sidebar */
+    width: calc(100% - 270px); /* Adjusted to account for sidebar */
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 8px 0;
+    font-size: 14px;
+}
+/* Form Container - Register Page */
+.container { 
+    width: 100%;
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); /* Slightly darker shadow */
+    text-align: center;
+    color: black;
+    position: relative;
+    z-index: 1;
+}
+
+/* Center the container */
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+/* Input fields */
+.container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Checkbox alignment */
+.container .checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.container button:hover {
+    background-color: #45a049;
+}
+
+/* Link styles */
+.container a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.container a:hover {
+    text-decoration: underline;
+}
+/* Align checkbox and label */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+/* Adjust checkbox spacing */
+.checkbox-container input[type="checkbox"] {
+    margin-right: 8px; /* Space between checkbox and text */
+    width: 16px;
+    height: 16px;
+}
+
+
+/* Logo */
+.logo img {
+    width: 100px; /* Increased size for better visibility */
+    margin-bottom: 15px;
+}
+
+/* Wheat & Rice Disease Diagnosis Styling */
+.diagnosis-container {
+    width: 80%;
+    max-width: 700px;
+    padding: 50px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.diagnosis-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #5A3E9F;
+    margin-bottom: 20px;
+}
+
+/* Image */
+.crop-image {
+    width: 60%;
+    max-height: 350px;
+    display: block;
+    margin: auto;
+    border-radius: 10px;
+}
+
+.uploaded-image {
+    max-width: 300px;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Upload Section */
+.upload-text {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Input Fields */
+.file-input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+}
+
+/* Predict Button */
+.predict-btn {
+    background: #5A3E9F;
+    color: white;
+    font-size: 20px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    margin: auto;
+}
+
+.predict-btn:hover {
+    background: #482c7c;
+}
+
+/* Flash Messages */
+.flash-messages {
+    margin-bottom: 15px;
+}
+
+.flash-message {
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flash-message.success {
+    background-color: #2a9d8f;
+    color: white;
+}
+
+.flash-message.danger {
+    background-color: #e63946;
+    color: white;
+}
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            color: #FFD700; /* Golden Yellow */
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 10px;
+        }
+        
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+
+
+        .sidebar a {
+            display: block;
+            padding: 12px 25px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 15px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+        }
+
+        .sidebar a.active {
+            background-color: #4a4a4a;
+        }
+/* Add to styles.css */
+.loader {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+[aria-hidden="true"] { 
+    pointer-events: none;
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: 250px; /* Matches sidebar width */
+    padding: 20px;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+/* Diagnosis Container */
+.diagnosis-container {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-right: 15%;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Upload Section */
+.upload-section {
+    text-align: center;
+    padding: 30px;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    background: #f9f9f9;
+}
+
+.upload-instructions {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* File Input Styling */
+.file-input-wrapper {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.file-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.file-label {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #5A3E9F;
+    color: white;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.file-label:hover {
+    background: #482c7c;
+}
+
+/* Results Section */
+.results-section {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+}
+
+.diagnosis-header {
+    color: #5A3E9F;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.disease-name {
+    color: #d32f2f;
+    font-size: 1.8rem;
+    margin: 15px 0;
+    text-align: center;
+}
+
+/* Recommendations */
+.recommendations {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 25px;
+}
+
+.recommendations h3 {
+    color: #5A3E9F;
+    margin-top: 0;
+}
+
+.recommendations-list {
+    padding-left: 20px;
+}
+
+.recommendations-list li {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    color: #333;
+}
+.uploaded-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    display: block;
+}
+
+.image-preview {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Wheat Diagnosis Specific Styles */
+.diagnosis-main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.upload-section {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.file-upload-card {
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.file-upload-card:hover {
+    border-color: #4CAF50;
+    background: #f8fff8;
+}
+
+.upload-content {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.upload-icon {
+    font-size: 3rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.upload-instructions {
+    color: #6b7280;
+    margin: 0.5rem 0 1.5rem;
+}
+
+.upload-label {
+    background: #4CAF50;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.upload-label:hover {
+    background: #45a049;
+}
+
+.file-name {
+    display: block;
+    margin-top: 1rem;
+    color: #6b7280;
+}
+
+.results-card {
+    margin-top: 2rem;
+    background: #f9fafb;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.results-header {
+    background: #4CAF50;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.confidence-badge {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.results-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.image-preview {
+    border-radius: 8px;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.preview-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.treatment-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.treatment-list li {
+    padding: 0.75rem;
+    background: white;
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.treatment-icon {
+    color: #4CAF50;
+    width: 1.25rem;
+}

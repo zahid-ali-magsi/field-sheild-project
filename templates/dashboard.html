@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Field Shield{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <h2>Field Shield</h2>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}" class="active">Dashboard</a></li>
+                <li><a href="{{ url_for('wheat_diagnosis') }}">Wheat Diagnosis</a></li>
+                <li><a href="{{ url_for('rice_diagnosis') }}">Rice Diagnosis</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="dashboard-content">
+        <header class="dashboard-header">
+            <div class="user-profile">
+                <img src="{{ url_for('static', filename='uploads/' + current_user.profile_pic) if current_user.profile_pic else url_for('static', filename='default-profile.png') }}" 
+                alt="User Profile" class="profile-pic">
+           
+                <span class="username">{{ current_user.username }}</span>
+            </div>
+        </header>
+
+        <section class="diagnosis-section">
+            <div class="card">
+                <h3>Wheat Disease Diagnosis</h3>
+                <p>Upload an image of an infected wheat crop to identify the disease.</p>
+                <a href="{{ url_for('wheat_diagnosis') }}" class="btn">Diagnose</a>
+            </div>
+            <div class="card">
+                <h3>Rice Disease Diagnosis</h3>
+                <p>Upload an image of an infected rice crop to identify the disease.</p>
+                <a href="{{ url_for('rice_diagnosis') }}" class="btn">Diagnose</a>
+            </div>
+        </section>
+
+        <section class="additional-info">
+            <div class="info-card">
+                <h3>About Field Shield</h3>
+                <p>Learn more about our crop disease detection system and how it helps farmers.</p>
+                <a href="{{ url_for('about') }}" class="btn">Learn More</a>
+            </div>
+            <div class="info-card">
+                <h3>Settings</h3>
+                <p>Update your profile, preferences, and notification settings.</p>
+                <a href="{{ url_for('settings') }}" class="btn">Go to Settings</a>
+            </div>
+        </section>
+    </main>
+</div>
+
+<footer class="dashboard-footer">
+    <p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; &copy; 2025 FIELD_SHIELD SIBAUKK. All rights reserved.</p>
+</footer>
+
+<style>
+    .user-profile {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 10px;
+        border-radius: 10px;
+    }
+
+    .profile-pic {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+        border: 2px solid white;
+    }
+
+    .username {
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+
+
+

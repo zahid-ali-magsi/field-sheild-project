@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background: url("{{ url_for('static', filename='images/img.jpg') }}") no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-box {
+            background: rgb(172, 225, 184);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 370px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .form-box h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .form-box h2 {
+            margin-bottom: 20px;
+            color: #3498db;
+            font-size: 24px;
+        }
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #f1f1f1;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+        .input-group i {
+            color: #3498db;
+            margin-right: 10px;
+        }
+        .input-group input {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+        }
+        .btn-primary {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+        .register-link {
+            margin-top: 15px;
+            color: #333;
+            font-size: 14px;
+        }
+        .register-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-box">
+        <h3>Please enter details to sign in your account</h3>
+        <h2>Sign in</h2>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul style="color: red; font-size: 14px; list-style: none; padding: 0;">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="POST" autocomplete="off">
+            {{ form.hidden_tag() }}
+
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                {{ form.username(class="input-field", placeholder="Username", autocomplete="off") }}
+            </div>
+
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                {{ form.password(class="input-field", placeholder="Password", autocomplete="new-password") }}
+            </div>
+
+            <button type="submit" class="btn-primary">Login</button>
+            <p class="register-link">
+                Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a>
+                or <a href="{{ url_for('forgot_password') }}">Forgot Password?</a>
+
+            </p>
+        </form>
+    </div>
+</body>
+</html>
+
+
+ 

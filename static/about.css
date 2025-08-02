@@ -1,0 +1,185 @@
+body {
+            
+
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to right, rgba(101, 78, 163, 0.5), rgba(234, 175, 200, 0.5)), 
+                url("/static/images/bg.jpg") no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    margin: 0;
+    color: white;
+    display: flex;
+
+    
+        }
+
+        
+       
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            color: #FFD700; /* Golden Yellow */
+        }
+        
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 10px;
+        }
+        
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+
+
+        .sidebar a {
+            display: block;
+            padding: 12px 25px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px 15px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #333;
+        }
+
+        .sidebar a.active {
+            background-color: #4a4a4a;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 220px;
+            padding: 40px;
+            flex: 1;
+        }
+
+        header {
+            color: yellow;
+            font-size: 2em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+            color: #ddd;
+        }
+
+        .disease-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .disease-card {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            color: yellow;
+        }
+
+        .disease-card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .disease-card img:hover {
+            transform: scale(1.1);
+        }
+
+        .disease-card p {
+            color: white;
+        }
+
+        .comment-section, .contact-section {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        .comment-section h3, .contact-section h3 {
+            color: yellow;
+            text-align: center;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            resize: vertical;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: yellow;
+            color: black;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .contact-section p {
+            text-align: center;
+            color: #ddd;
+        }
+
+        @media screen and (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            main {
+                margin-left: 0;
+            }
+
+            .disease-card {
+                width: 90%;
+            }
+        }

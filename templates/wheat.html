@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheat Disease Diagnosis | Field Shield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Field Shield</h2>
+        <ul>
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('wheat_diagnosis') }}" class="active">Wheat Diagnosis</a></li>
+            <li><a href="{{ url_for('rice_diagnosis') }}">Rice Diagnosis</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('settings') }}">Settings</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+    <div class="diagnosis-container">
+        <h1 class="diagnosis-title" aria-label="Wheat Disease Diagnosis">Wheat Disease Diagnosis</h1>
+
+        <!-- ✅ Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <img src="{{ url_for('static', filename='images/wheat.png') }}" 
+             alt="Wheat plant illustration" 
+             class="crop-image"
+             aria-hidden="true">
+
+        <!-- ✅ File upload form -->
+        <form method="POST" 
+              action="{{ url_for('wheat_diagnosis') }}"
+              enctype="multipart/form-data" 
+              class="upload-form"
+              aria-label="Wheat leaf upload form">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <p class="upload-text" id="upload-label">
+                    Upload a clear photo of a wheat leaf:
+                </p>
+
+                <div class="file-input-wrapper">
+                    <!-- ✅ FIX: Changed name to 'image' -->
+                    <input type="file" name="image" class="file-input" id="fileInput" aria-labelledby="upload-label" required>
+                    <label for="fileInput" class="file-label">
+                        <span class="browse-text">Choose File</span>
+                        <span class="file-name" id="fileName" aria-live="polite">
+                            No file selected
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="predict-btn" id="submitBtn">
+                <span class="btn-text">Analyze</span>
+            </button>
+        </form>
+
+        <!-- ✅ Show prediction result -->
+        {% if prediction %}
+        <div class="results-section">
+            <div class="diagnosis-header">
+                <h2>Diagnosis Results</h2>
+            </div>
+            
+            <h3 class="disease-name">{{ prediction['class'] }}</h3>
+            <p><strong>Confidence:</strong> {{ prediction['confidence'] }}%</p>
+            
+            <div class="image-preview">
+                <img src="{{ url_for('static', filename='uploads/' + prediction.filename) }}" 
+                     alt="Diagnosed wheat leaf" 
+                     class="uploaded-image">
+            </div>
+            
+            <div class="recommendations">
+                <h3>Treatment Recommendations:</h3>
+                <ul class="recommendations-list">
+                    {% for treatment in prediction.treatment %}
+                        <li>{{ treatment }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- ✅ JS for UI feedback -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('fileInput');
+        const fileNameSpan = document.getElementById('fileName');
+        const form = document.querySelector('form');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            fileNameSpan.textContent = file ? file.name : 'No file selected';
+        });
+
+        form.addEventListener('submit', () => {
+            if (fileInput.files.length > 0) {
+                submitBtn.disabled = true;
+                btnText.textContent = 'Analyzing...';
+                submitBtn.insertAdjacentHTML('beforeend', 
+                    '<div class="loader" aria-hidden="true"></div>');
+            }
+        });
+
+        // Re-enable button if form has errors after 3s
+        setTimeout(() => {
+            if (document.querySelector('.error-message')) {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Analyze';
+                const loader = submitBtn.querySelector('.loader');
+                if (loader) loader.remove();
+            }
+        }, 3000);
+    });
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheat Disease Diagnosis | Field Shield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Field Shield</h2>
+        <ul>
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('wheat_diagnosis') }}">Wheat Diagnosis</a></li>
+            <li><a href="{{ url_for('rice_diagnosis') }}">Rice Diagnosis</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('settings') }}">Settings</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+    <div class="diagnosis-container">
+        <h1 class="diagnosis-title" aria-label="Wheat Disease Diagnosis">Wheat Disease Diagnosis</h1>
+        <img src="{{ url_for('static', filename='images/wheat.png') }}" 
+             alt="Wheat plant illustration" 
+             class="crop-image"
+             aria-hidden="true">
+
+        <form method="POST" 
+              action="{{ url_for('wheat_diagnosis') }}"
+              enctype="multipart/form-data" 
+              class="upload-form"
+              aria-label="Wheat leaf upload form">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <p class="upload-text" id="upload-label">
+                    Upload a clear photo of a wheat leaf:
+                </p>
+
+                <div class="file-input-wrapper">
+                    <input type="file" name="wheat_image" class="file-input" id="fileInput" aria-labelledby="upload-label" required>
+                    <label for="fileInput" class="file-label">
+                        <span class="browse-text">Choose File</span>
+                        <span class="file-name" id="fileName" aria-live="polite">
+                            No file selected
+                        </span>
+                    </label>
+                </div>
+                
+           
+
+            <button type="submit" class="predict-btn" id="submitBtn">
+                <span class="btn-text">Analyze</span>
+            </button>
+        </form>
+
+        {% if prediction %}
+        <div class="results-section">
+            <div class="diagnosis-header">
+                <h2>Diagnosis Results</h2>
+            </div>
+            
+            <h3 class="disease-name">{{ prediction['class'] }}</h3>
+            
+            <div class="image-preview">
+                <img src="{{ url_for('static', filename='uploads/' + prediction.filename) }}" 
+                     alt="Diagnosed wheat leaf" 
+                     class="uploaded-image">
+            </div>
+            
+            <div class="recommendations">
+                <h3>Treatment Recommendations:</h3>
+                <ul class="recommendations-list">
+                    {% for treatment in prediction.treatment %}
+                    <li>{{ treatment }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const fileInput = document.getElementById('fileInput');
+        const fileNameSpan = document.getElementById('fileName');
+        const form = document.querySelector('form');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            fileNameSpan.textContent = file ? file.name : 'No file selected';
+        });
+
+        form.addEventListener('submit', () => {
+            if (fileInput.files.length > 0) {
+                submitBtn.disabled = true;
+                btnText.textContent = 'Analyzing...';
+                submitBtn.insertAdjacentHTML('beforeend', 
+                    '<div class="loader" aria-hidden="true"></div>');
+            }
+        });
+
+        // Re-enable button if form has errors after 3s
+        setTimeout(() => {
+            if (document.querySelector('.error-message')) {
+                submitBtn.disabled = false;
+                btnText.textContent = 'Analyze';
+                const loader = submitBtn.querySelector('.loader');
+                if (loader) loader.remove();
+            }
+        }, 3000);
+    });
+    </script>
+</body>
+</html> -->

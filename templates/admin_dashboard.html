@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5A3E9F;
+            --secondary-color: #6c757d;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+        }
+        
+        .admin-container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .users-table {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        .users-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+        
+        .activity-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .activity-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .activity-card {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            background: var(--light-bg);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+            transition: transform 0.2s;
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-3px);
+        }
+        
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .login-activity {
+            border-left-color: var(--success-color);
+        }
+        
+        .login-activity .activity-icon {
+            background: var(--success-color);
+        }
+        
+        .diagnosis-activity {
+            border-left-color: var(--warning-color);
+        }
+        
+        .diagnosis-activity .activity-icon {
+            background: var(--warning-color);
+        }
+        
+        .settings-activity {
+            border-left-color: var(--secondary-color);
+        }
+        
+        .settings-activity .activity-icon {
+            background: var(--secondary-color);
+        }
+        
+        .activity-content {
+            flex-grow: 1;
+        }
+        
+        .activity-meta {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .user-badge {
+            background: #e0e0e0;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .admin-badge {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .activity-time {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .ip-address {
+            color: #666;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .activity-title {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .activity-details {
+            margin: 0;
+            color: #666;
+        }
+        
+        .disease-tag {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+        
+        .bacterial {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .prediction-details {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+        
+        .treatment-list {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+        }
+        
+        .treatment-list li {
+            margin-bottom: 5px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .treatment-list i {
+            color: var(--success-color);
+            font-size: 0.9rem;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+        
+        .search-box input {
+            padding: 8px 15px 8px 35px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            width: 200px;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            width: 250px;
+        }
+        
+        .modern-select {
+            padding: 8px 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .diagnosis-section .list-group-item {
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.diagnosis-section .list-group-item:hover {
+    transform: translateX(5px);
+    border-left-color: var(--success-color);
+}
+
+.rice-diagnosis {
+    border-left-color: #28a745 !important;
+}
+
+.wheat-diagnosis {
+    border-left-color: #ffc107 !important;
+}
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="dashboard-header">
+            <h3><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h3>
+            <a href="{{ url_for('logout') }}" class="btn btn-warning">
+                <i class="fas fa-sign-out-alt me-1"></i> Logout
+            </a>
+        </div>
+        
+        <div class="users-table">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>
+                                {% if user.is_admin %}
+                                    <span class="badge bg-primary me-2">Admin</span>
+                                {% endif %}
+                                {{ user.username }}
+                            </td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ url_for('view_user_details', user_id=user.id) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye me-1"></i> View
+                                    </a>
+                                    <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?');">
+                                            <i class="fas fa-trash-alt me-1"></i> Delete
+                                        </button>
+                                    </form>
+                                    <a href="{{ url_for('send_message', user_id=user.id) }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-envelope me-1"></i> Message
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+<!-- Add this after the users table but before the activity section -->
+<div class="diagnosis-section mt-5">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <i class="fas fa-seedling me-2"></i>Recent Crop Diagnoses
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-wheat me-2"></i>Wheat Diagnoses</h5>
+                    <div class="list-group">
+                        {% for activity in wheat_diagnoses %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>{{ activity.user.username }}</strong>
+                                    <div class="text-muted small">
+                                        {{ activity.details|safe }}
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">
+                                        {{ activity.created_at|time_ago }}<br>
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-ip me-1"></i>{{ activity.ip_address }}
+                                        </span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="list-group-item text-muted">No recent wheat diagnoses</div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="col-md-6 mt-3 mt-md-0">
+                    <h5><i class="fas fa-rice me-2"></i>Rice Diagnoses</h5>
+                    <div class="list-group">
+                        {% for activity in rice_diagnoses %}
+                        <div class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div>
+                                    <strong>{{ activity.user.username }}</strong>
+                                    <div class="text-muted small">
+                                        {{ activity.details|safe }}
+                                    </div>
+                                </div>
+                                <div class="text-end">
+                                    <small class="text-muted">
+                                        {{ activity.created_at|time_ago }}<br>
+                                        <span class="badge bg-warning text-dark">
+                                            <i class="fas fa-ip me-1"></i>{{ activity.ip_address }}
+                                        </span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="list-group-item text-muted">No recent rice diagnoses</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+        
+        <div class="activity-section">
+            <div class="activity-header">
+                <h4><i class="fas fa-history me-2"></i>User Activity Log</h4>
+                <div class="activity-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="activity-search" placeholder="Search activities...">
+                    </div>
+                    <select id="activity-filter" class="modern-select">
+                        <option value="all">All Activities</option>
+                        <option value="login">Logins</option>
+                        <option value="diagnosis">Diagnoses</option>
+                        <option value="prediction">Predictions</option>
+                        <option value="settings">Settings</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="activity-cards">
+                {% for activity in recent_activities %}
+                <div class="activity-card {{ activity.activity_type }}-activity">
+                    <div class="activity-icon">
+                        {% if activity.activity_type == 'login' %}
+                            <i class="fas fa-sign-in-alt"></i>
+                        {% elif activity.activity_type == 'diagnosis' or activity.activity_type == 'prediction' %}
+                            <i class="fas fa-leaf"></i>
+                        {% elif activity.activity_type == 'settings' %}
+                            <i class="fas fa-cog"></i>
+                        {% else %}
+                            <i class="fas fa-history"></i>
+                        {% endif %}
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-meta">
+                            <span class="user-badge {% if activity.user.is_admin %}admin-badge{% endif %}">
+                                {{ activity.user.username }}
+                            </span>
+                            <span class="activity-time">
+                                {{ activity.created_at.strftime('%Y-%m-%d %H:%M') }}
+                            </span>
+                            <span class="ip-address">
+                                <i class="fas fa-network-wired"></i> {{ activity.ip_address }}
+                            </span>
+                        </div>
+                        <h4 class="activity-title">
+                            {{ activity.activity_type|replace('_', ' ')|title }}
+                        </h4>
+                        <p class="activity-details">{{ activity.details }}</p>
+                        
+                        {% if activity.activity_type == 'diagnosis' or activity.activity_type == 'prediction' %}
+                            {% if 'Diagnosed' in activity.details %}
+                                <div class="prediction-details">
+                                    {% set details_parts = activity.details.split(' with ') %}
+                                    {% if details_parts|length > 1 %}
+                                        <p><strong>Prediction:</strong> {{ details_parts[0] }}</p>
+                                        <p><strong>Confidence:</strong> {{ details_parts[1] }}</p>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterSelect = document.getElementById('activity-filter');
+        const searchInput = document.getElementById('activity-search');
+        const activityCards = document.querySelectorAll('.activity-card');
+        
+        function filterActivities() {
+            const filterValue = filterSelect.value;
+            const searchValue = searchInput.value.toLowerCase();
+            
+            activityCards.forEach(card => {
+                const activityType = card.classList.contains('login-activity') ? 'login' : 
+                                   card.classList.contains('diagnosis-activity') ? 'diagnosis' :
+                                   card.classList.contains('prediction-activity') ? 'prediction' :
+                                   card.classList.contains('settings-activity') ? 'settings' : 'other';
+                
+                const cardText = card.textContent.toLowerCase();
+                
+                const typeMatch = filterValue === 'all' || 
+                                 (filterValue === 'login' && activityType === 'login') ||
+                                 (filterValue === 'diagnosis' && (activityType === 'diagnosis' || activityType === 'prediction')) ||
+                                 (filterValue === 'settings' && activityType === 'settings');
+                
+                const searchMatch = cardText.includes(searchValue);
+                
+                card.style.display = typeMatch && searchMatch ? 'flex' : 'none';
+            });
+        }
+        
+        filterSelect.addEventListener('change', filterActivities);
+        searchInput.addEventListener('input', filterActivities);
+    });
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

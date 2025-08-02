@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About - Field Shield</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+    <!-- Add Bootstrap CSS if using -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <h2>Field Shield</h2>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}" class="active">Dashboard</a></li>
+                    <li><a href="{{ url_for('wheat_diagnosis') }}">Wheat Diagnosis</a></li>
+                    <li><a href="{{ url_for('rice_diagnosis') }}">Rice Diagnosis</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('settings') }}">Settings</a></li>
+                    <li><a href="{{ url_for('logout') }}" class="logout">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main>
+            <!-- Flash Messages at the top of main content -->
+            <div class="flash-messages">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            <header>About Field Shield</header>
+
+        <div class="intro">
+            <p>
+                FIELD SHIELD helps farmers diagnose wheat and rice crop diseases through image processing and machine learning.
+                Upload leaf images to detect issues and receive diagnosis instantly.
+            </p>
+        </div>
+
+        <!-- Disease Cards Grid -->
+        <div class="disease-grid">
+            {% set diseases = [
+                {
+                    'title': 'Rust (Wheat)',
+                    'img': 'rust.jpg',
+                    'desc': 'A fungal disease causing yellow-orange pustules on leaves.',
+                    'link': 'https://www.apsnet.org/edcenter/disandpath/fungalbasidio/pdlessons/Pages/WheatRusts.aspx'
+                },
+                {
+                    'title': 'Powdery Mildew (Wheat)',
+                    'img': 'powdery-mildew-wheat.jpg',
+                    'desc': 'White powdery spots on leaves, reducing yield.',
+                    'link': 'https://www.cabi.org/isc/datasheet/38497'
+                },
+                {
+                    'title': 'Leaf Rust (Wheat)',
+                    'img': 'Leaf rust_wheat_2.jpg',
+                    'desc': 'Reddish-brown pustules on leaves, affecting photosynthesis and yield.',
+                    'link': 'https://www.agric.wa.gov.au/grains-research-development/leaf-rust-wheat'
+                },
+                {
+                    'title': 'Blast (Rice)',
+                    'img': 'blast.jpg',
+                    'desc': 'Causes lesions on leaves, leading to reduced grain formation.',
+                    'link': 'https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/blast-leaf-collar-neck-and-panicle'
+                },
+                {
+                    'title': 'Bacterial Blight (Rice)',
+                    'img': 'backblight.jpg',
+                    'desc': 'Yellowing and wilting of leaves due to bacterial infection.',
+                    'link': 'https://www.knowledgebank.irri.org/training/fact-sheets/pest-management/diseases/item/bacterial-blight'
+                },
+                {
+                    'title': 'Bacterial Leaf Blight (Rice)',
+                    'img': 'backleafblight.jpg',
+                    'desc': 'Streaks and wilting in rice plants due to bacterial infection.',
+                    'link': 'https://www.cabi.org/isc/datasheet/45273'
+                }
+            ] %}
+
+            {% for disease in diseases %}
+            <div class="disease-card">
+                <h3>{{ disease.title }}</h3>
+                <a href="{{ disease.link }}" target="_blank">
+                    <img src="{{ url_for('static', filename='images/' ~ disease.img) }}" alt="{{ disease.title }}">
+                </a>
+                <p>{{ disease.desc }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Comment Section -->
+        <div class="comment-section">
+            <h3>User Comments ({{ comments|length }})</h3>
+            
+            <!-- Comment Form -->
+            {% if current_user.is_authenticated %}
+            <div class="comment-form">
+                <form method="POST" action="{{ url_for('submit_comment') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        {{ form.comment(class="form-control", rows=3, placeholder="Share your thoughts...") }}
+                        {% if form.comment.errors %}
+                        <div class="text-danger">
+                            {% for error in form.comment.errors %}
+                            <small>{{ error }}</small>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {{ form.submit(class="btn btn-primary mt-2") }}
+                </form>
+            </div>
+            {% else %}
+            <div class="alert alert-info">
+                Please <a href="{{ url_for('login') }}">login</a> to post comments
+            </div>
+            {% endif %}
+        
+            <!-- Comments List -->
+            <div class="comments-list mt-4">
+                {% for comment in comments %}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="card-title">
+                                    {{ comment.user.username }}
+                                    {% if comment.user.is_admin %}
+                                    <span class="badge bg-primary">Admin</span>
+                                    {% endif %}
+                                </h5>
+                                <small class="text-muted">
+                                    {{ comment.created_at.strftime('%b %d, %Y %I:%M %p') }}
+                                </small>
+                            </div>
+                            {% if current_user.is_admin %}
+                            <form method="POST" action="{{ url_for('delete_comment', comment_id=comment.id) }}">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        {% endif %}
+                        </div>
+                        <p class="card-text mt-2">{{ comment.content }}</p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="alert alert-info">No comments yet. Be the first to share!</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h3>Contact Us</h3>
+            <p>If you have any questions or need support, contact us at:</p>
+            <p><strong>Email:</strong> <a>zahidams13@gmail.com</a></p>
+            <p><strong>Phone:</strong> +92 3443239374</p>
+        </div>
+    </main>
+</div>
+
+<!-- Add Bootstrap JS and Popper.js for alert dismissal -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
