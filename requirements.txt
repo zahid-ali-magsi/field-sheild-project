@@ -9,7 +9,7 @@ WTForms==3.1.2
 email_validator==2.1.1
 python-dotenv==1.0.1
 bleach==6.1.0
-opencv-python==4.11.0.86
+opencv-python-headless==4.9.0.80
 numpy==1.23.5
 scipy==1.15.2
 pillow==10.3.0
@@ -27,3 +27,4 @@ rich
 colorama
 dnspython
 PyYAML
+
